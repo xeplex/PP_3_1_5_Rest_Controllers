@@ -1,0 +1,31 @@
+body {
+    display: flex;
+    height: 100vh;
+    margin: 0;
+}
+
+.navbar-fixed {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1030;
+}
+
+.sidebar {
+    position: fixed;
+    top: 56px;
+    left: 0;
+    height: calc(100% - 56px);
+    width: 200px;
+    background-color: #ffffff;
+    padding: 1rem;
+    overflow-y: auto;
+}
+
+main {
+    margin-left: 200px;
+    padding: 1rem;
+    margin-top: 56px;
+    flex-grow: 1;
+}
