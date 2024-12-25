@@ -9,7 +9,6 @@ import ru.kata.spring.boot_security.demo.dao.UserRepository;
 import ru.kata.spring.boot_security.demo.exception.NoSuchUserException;
 import ru.kata.spring.boot_security.demo.model.User;
 
-import javax.persistence.EntityNotFoundException;
 import java.util.List;
 
 @Service
@@ -55,10 +54,18 @@ public class UserServiceImpl implements UserService {
     public void update(User user, Long id) {
         User existingUser = getById(id);
         if (existingUser != null) {
-            existingUser.setUsername(user.getUsername());
-            existingUser.setEmail(user.getEmail());
-            existingUser.setAge(user.getAge());
-            existingUser.setRoles(user.getRoles());
+            if (user.getUsername() != null) {
+                existingUser.setUsername(user.getUsername());
+            }
+            if (user.getEmail() != null) {
+                existingUser.setEmail(user.getEmail());
+            }
+            if (user.getAge() != null) {
+                existingUser.setAge(user.getAge());
+            }
+            if (user.getRoles() != null) {
+                existingUser.setRoles(user.getRoles());
+            }
             if (user.getPassword() != null && !user.getPassword().isEmpty()) {
                 String encodedPassword = passwordEncoder.encode(user.getPassword());
                 existingUser.setPassword(encodedPassword);
