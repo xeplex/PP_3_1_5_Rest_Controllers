@@ -16,6 +16,7 @@ import ru.kata.spring.boot_security.demo.service.UserService;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;
+import java.util.Set;
 
 
 @Controller()
@@ -35,7 +36,7 @@ public class UserController {
         String username = authentication.getName();
         User user = userService.findByUsername(username);
         model.addAttribute("user", user);
-        List<Role> userRoles = (List<Role>) user.getRoles();
+        Set<Role> userRoles = user.getRoles();
         model.addAttribute("userRoles", userRoles);
         return "user";
     }

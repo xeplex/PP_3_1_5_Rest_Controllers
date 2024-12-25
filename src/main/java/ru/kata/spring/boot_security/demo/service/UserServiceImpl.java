@@ -6,6 +6,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.kata.spring.boot_security.demo.dao.UserRepository;
+import ru.kata.spring.boot_security.demo.exception.NoSuchUserException;
 import ru.kata.spring.boot_security.demo.model.User;
 
 import javax.persistence.EntityNotFoundException;
@@ -64,7 +65,7 @@ public class UserServiceImpl implements UserService {
             }
             userRepository.save(existingUser);
         } else {
-            throw new EntityNotFoundException("User  with id " + id + " not found.");
+            throw new NoSuchUserException("There is no user with ID = " + id + " in Database");
         }
     }
 
