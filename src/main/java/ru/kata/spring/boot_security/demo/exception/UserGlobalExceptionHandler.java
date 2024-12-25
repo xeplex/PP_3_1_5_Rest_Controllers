@@ -12,4 +12,19 @@ public class UserGlobalExceptionHandler {
     public ResponseEntity<String> handleNoSuchUserException(NoSuchUserException ex) {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
     }
+
+    @ExceptionHandler(UsernameValidationException.class)
+    public ResponseEntity<String> handleNoSuchUserException(UsernameValidationException ex) {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
+    }
+
+    @ExceptionHandler(EmailValidationException.class)
+    public ResponseEntity<String> handleNoSuchUserException(EmailValidationException ex) {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
+    }
+
+    @ExceptionHandler(AgeValidationException.class)
+    public ResponseEntity<String> handleNoSuchUserException(AgeValidationException ex) {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
+    }
 }
