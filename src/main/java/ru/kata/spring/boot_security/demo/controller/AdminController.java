@@ -17,7 +17,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.security.Principal;
 import java.util.List;
-import java.util.Set;
 
 @Controller
 @RequestMapping("/admin")
@@ -25,55 +24,17 @@ public class AdminController {
 
     private final UserService userService;
     private final RoleService roleService;
-    private final ValidateUserService validateUserService;
-
 
     @Autowired
-    public AdminController(UserService userService, RoleService roleService, ValidateUserService validateUserService) {
+    public AdminController(UserService userService, RoleService roleService) {
         this.userService = userService;
         this.roleService = roleService;
-        this.validateUserService = validateUserService;
     }
 
     @GetMapping
-    public String getUsers(Model model, Principal principal) {
+    public String showAdminPage(Principal principal, Model model) {
         addCurrentUserToModel(model, principal);
-        List<User> users = userService.getAll();
-        for (User user : users) {
-            user.setRoles(roleService.findRolesByUserId(user.getId()));
-        }
-        model.addAttribute("users", users);
-        model.addAttribute("username", principal.getName());
-        List<Role> roles = roleService.getAll();
-        model.addAttribute("allRoles", roles);
         return "users";
-    }
-
-    @PostMapping("/saveUser")
-    public String saveUser(@ModelAttribute("user") User user, Model model, Principal principal) {
-        addCurrentUserToModel(model, principal);
-        if (validateUserService.validateByUsername(user, model) ||
-                validateUserService.validateByEmail(user, model) || validateUserService.validateByAge(user, model)) {
-            return "users";
-        }
-        userService.save(user);
-        return "redirect:/admin";
-    }
-
-    @DeleteMapping("/deleteUser")
-    public String deleteUser(@RequestParam("id") Long id) {
-        userService.delete(id);
-        return "redirect:/admin";
-    }
-
-    @PatchMapping("/updateUser")
-    public String updateUser(@ModelAttribute("user") User user,
-                             @RequestParam("id") Long id, Model model) {
-        if (validateUserService.validateUpdateUser(user, id, model) || validateUserService.validateByAge(user, model)) {
-            return "users";
-        }
-        userService.update(user, id);
-        return "redirect:/admin";
     }
 
     @PostMapping("/logout")

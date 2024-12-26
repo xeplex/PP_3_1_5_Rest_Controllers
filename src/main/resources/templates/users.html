@@ -67,38 +67,6 @@
                         </tr>
                         </thead>
                         <tbody>
-                        <tr th:each="user : ${users}">
-                            <td th:text="${user.id}">...</td>
-                            <td th:text="${user.username}">...</td>
-                            <td th:text="${user.email}">...</td>
-                            <td th:text="${user.age}">...</td>
-                            <td>
-                            <span>
-                                <span th:each="role, iterStat : ${user.roles}">
-                                    <span th:text="${role.name}"></span>
-                                    <span th:if="${iterStat.index < iterStat.size - 1}"> </span>
-                                </span>
-                            </span>
-                            </td>
-                            <td>
-                                <button type="button" class="btn btn-primary" data-bs-toggle="modal"
-                                        data-bs-target="#editUserModal"
-                                        th:attr="data-user-id=${user.id}, data-user-username=${user.username},
-                                    data-user-email=${user.email}, data-user-age=${user.age}, data-user-roles=${user.roles}">
-                                    EDIT
-                                </button>
-                            </td>
-                            <td>
-                                <div style="display: inline-block; margin-right: 10px;">
-                                    <button type="button" class="btn btn-danger" data-bs-toggle="modal"
-                                            data-bs-target="#deleteUserModal"
-                                            th:attr="data-user-id=${user.id}, data-user-username=${user.username},
-                                        data-user-email=${user.email}, data-user-age=${user.age}, data-user-roles=${user.roles}">
-                                        DELETE
-                                    </button>
-                                </div>
-                            </td>
-                        </tr>
                         </tbody>
                     </table>
                 </div>
@@ -327,5 +295,6 @@
         integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p"
         crossorigin="anonymous"></script>
 <script src="/js/scripts.js"></script>
+<script src="/js/fetchSripts.js"></script>
 </body>
 </html>
