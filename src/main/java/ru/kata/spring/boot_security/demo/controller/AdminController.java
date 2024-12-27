@@ -24,16 +24,21 @@ public class AdminController {
 
     private final UserService userService;
     private final RoleService roleService;
+    private final ValidateUserService validateUserService;
+
 
     @Autowired
-    public AdminController(UserService userService, RoleService roleService) {
+    public AdminController(UserService userService, RoleService roleService, ValidateUserService validateUserService) {
         this.userService = userService;
         this.roleService = roleService;
+        this.validateUserService = validateUserService;
     }
 
     @GetMapping
-    public String showAdminPage(Principal principal, Model model) {
+    public String getUsers(Model model, Principal principal) {
         addCurrentUserToModel(model, principal);
+//        List<Role> roles = roleService.getAll();
+//        model.addAttribute("allRoles", roles);
         return "users";
     }
 

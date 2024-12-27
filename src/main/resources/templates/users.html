@@ -149,21 +149,7 @@
                             <th scope="col">ROLES</th>
                         </tr>
                         </thead>
-                        <tbody>
-                        <tr>
-                            <td><span th:text="${user.id}"></span></td>
-                            <td><span th:text="${user.username}"></span></td>
-                            <td><span th:text="${user.email}"></span></td>
-                            <td><span th:text="${user.age}"></span></td>
-                            <td>
-                            <span>
-                                <span th:each="role, iterStat : ${user.roles}">
-                                    <span th:text="${role.name}"></span>
-                                    <span th:if="${iterStat.index < iterStat.size - 1}"> </span>
-                                </span>
-                            </span>
-                            </td>
-                        </tr>
+                        <tbody class = "userInfo">
                         </tbody>
                     </table>
                 </div>
@@ -171,7 +157,7 @@
         </div>
     </div>
 
-    <div class="modal fade" id="editUserModal" tabindex="-1" aria-labelledby="editUserModalLabel" aria-hidden="true">
+    <div class="modal fade" id="editUserModal" tabindex="-1" aria-labelledby="editUserModalLabel">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
@@ -294,7 +280,10 @@
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"
         integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p"
         crossorigin="anonymous"></script>
-<script src="/js/scripts.js"></script>
-<script src="/js/fetchSripts.js"></script>
+<script src="/js/fetchSсripts.js"></script>
+<script src="/js/update.js"></script>
+<script src="/js/create.js"></script>
+<script src="/js/delete.js"></script>
+<script src="/js/read.js"></script>
 </body>
 </html>

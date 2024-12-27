@@ -40,6 +40,18 @@ public class UserServiceImpl implements UserService {
     public void save(User user) {
         String encodedPassword = passwordEncoder.encode(user.getPassword());
         user.setPassword(encodedPassword);
+        if (user.getUsername() == null) {
+            throw new IllegalArgumentException("Введите никнейм");
+        }
+        if (user.getEmail() == null) {
+            throw new IllegalArgumentException("Введите почту");
+        }
+        if (user.getAge() == null) {
+            throw new IllegalArgumentException("Введите возраст");
+        }
+        if (user.getRoles() == null) {
+            throw new IllegalArgumentException("Выберите хотя бы одну роль");
+        }
         userRepository.save(user);
     }
 

@@ -36,8 +36,8 @@ public class UserController {
         String username = authentication.getName();
         User user = userService.findByUsername(username);
         model.addAttribute("user", user);
-        Set<Role> userRoles = user.getRoles();
-        model.addAttribute("userRoles", userRoles);
+//        Set<Role> userRoles = user.getRoles();
+//        model.addAttribute("userRoles", userRoles); // здесь не должно быть и того, что выше. Все загрузки должны выполняться скриптом js
         return "user";
     }
 

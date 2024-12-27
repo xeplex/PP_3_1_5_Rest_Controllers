@@ -21,7 +21,7 @@ public class Role implements GrantedAuthority {
 
     public Role(Long id) {
         this.id = id;
-    }
+    } // не самая хорошая практика
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -6,9 +6,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.kata.spring.boot_security.demo.exception_handler.NoSuchUserException;
 import ru.kata.spring.boot_security.demo.model.User;
+import ru.kata.spring.boot_security.demo.service.RoleService;
 import ru.kata.spring.boot_security.demo.service.UserService;
 import ru.kata.spring.boot_security.demo.validation.ValidateRestUserService;
 
+import java.security.Principal;
 import java.util.List;
 
 @RestController
@@ -17,14 +19,16 @@ public class AdminRestController {
 
     private final UserService userService;
     private final ValidateRestUserService validateRestUserService;
+    private final RoleService roleService;
 
-    public AdminRestController(UserService userService, ValidateRestUserService validateRestUserService) {
+    public AdminRestController(UserService userService, ValidateRestUserService validateRestUserService, RoleService roleService) {
         this.userService = userService;
         this.validateRestUserService = validateRestUserService;
+        this.roleService = roleService;
     }
 
     @GetMapping("/users")
-    public ResponseEntity<List<User>> showAllUsers() {
+    public ResponseEntity<List<User>> showAll() {
         return new ResponseEntity<>(userService.getAll(), HttpStatus.OK);
     }
 
@@ -57,5 +61,11 @@ public class AdminRestController {
         validateRestUserService.validateByAge(user);
         userService.update(user, id);
         return "User with ID = " + id + " was updated";
+    }
+
+    @GetMapping("/current")
+    public ResponseEntity<User> getCurrent(Principal principal) {
+        User user = userService.findByUsername(principal.getName());
+        return new ResponseEntity<>(user, HttpStatus.OK);
     }
 }
