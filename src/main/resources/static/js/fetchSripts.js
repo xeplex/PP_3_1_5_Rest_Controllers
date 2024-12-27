@@ -2,14 +2,13 @@ document.addEventListener('DOMContentLoaded', function () {
     getUsers();
 });
 
-// URL для API
 const url = 'http://localhost:8080/api/users/';
 
 async function getUsers() {
     try {
         const response = await fetch(url, {
             method: "GET",
-            headers: { "Accept": "application/json" }
+            headers: {"Accept": "application/json"}
         });
 
         if (response.ok) {
@@ -47,9 +46,24 @@ function createRow(user) {
     return row;
 }
 
+document.addEventListener('DOMContentLoaded', function () {
+    const newUserTab = document.getElementById('newUser');
+
+    newUserTab.addEventListener('show.bs.tab', function () {
+        const form = document.querySelector('.add-user-form');
+        form.reset();
+
+        document.getElementById('new_username').value = '';
+        document.getElementById('new_email').value = '';
+        document.getElementById('new_age').value = '';
+        document.getElementById('new_password').value = '';
+        document.getElementById('new_role').selectedIndex = -1;
+    });
+});
+
 document.querySelector('.add-user-form').addEventListener('submit', async function (event) {
     event.preventDefault();
-    const newUser  = {
+    const newUser = {
         username: document.getElementById('new_username').value,
         email: document.getElementById('new_email').value,
         age: document.getElementById('new_age').value,
@@ -90,6 +104,7 @@ function populateEditModal(user) {
     document.getElementById('editUsername').value = user.username;
     document.getElementById('editEmail').value = user.email;
     document.getElementById('editAge').value = user.age;
+    document.getElementById('editPassword').value = '';
     const rolesSelect = document.getElementById('editRole');
     Array.from(rolesSelect.options).forEach(option => {
         option.selected = user.roles.some(role => role.name === option.text);
@@ -101,6 +116,7 @@ function populateEditModal(user) {
 document.getElementById('editUserModal').querySelector('form').addEventListener('submit', async function (event) {
     event.preventDefault();
     const userId = document.getElementById('editUserId').value;
+
     const updatedUser  = {
         id: document.getElementById('editId').value,
         username: document.getElementById('editUsername').value,
@@ -108,6 +124,10 @@ document.getElementById('editUserModal').querySelector('form').addEventListener(
         age: document.getElementById('editAge').value,
         roles: Array.from(document.getElementById('editRole').selectedOptions).map(option => option.value)
     };
+    const password = document.getElementById('editPassword').value;
+    if (password) {
+        updatedUser .password = password;
+    }
 
     try {
         const response = await fetch(`${url}${userId}`, {
@@ -129,6 +149,7 @@ document.getElementById('editUserModal').querySelector('form').addEventListener(
         console.error('Ошибка при выполнении запроса:', error);
     }
 });
+
 
 document.addEventListener('click', function (event) {
     if (event.target.classList.contains('delete-button')) {
