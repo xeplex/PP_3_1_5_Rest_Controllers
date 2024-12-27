@@ -5,7 +5,6 @@ document.addEventListener('DOMContentLoaded', function () {
 // URL для API
 const url = 'http://localhost:8080/api/users/';
 
-// Получение списка пользователей
 async function getUsers() {
     try {
         const response = await fetch(url, {
@@ -26,7 +25,6 @@ async function getUsers() {
     }
 }
 
-// Создание строки таблицы для пользователя
 function createRow(user) {
     const row = document.createElement('tr');
     row.innerHTML = `
@@ -41,7 +39,7 @@ function createRow(user) {
             </button>
         </td>
         <td>
-            <button type="button" class="btn btn-danger delete-button" data-user-id="${user.id}">
+            <button type="button" class="btn btn-danger delete-button" data-user='${JSON.stringify(user)}'>
                 DELETE
             </button>
         </td>
@@ -49,7 +47,6 @@ function createRow(user) {
     return row;
 }
 
-// Добавление нового пользователя
 document.querySelector('.add-user-form').addEventListener('submit', async function (event) {
     event.preventDefault();
     const newUser  = {
@@ -70,8 +67,8 @@ document.querySelector('.add-user-form').addEventListener('submit', async functi
         });
 
         if (response.ok) {
-            getUsers(); // Обновить список пользователей
-            document.querySelector('.add-user-form').reset(); // Сбросить форму
+            getUsers();
+            document.querySelector('.add-user-form').reset();
         } else {
             console.error('Ошибка при добавлении пользователя:', response.statusText);
         }
@@ -80,7 +77,6 @@ document.querySelector('.add-user-form').addEventListener('submit', async functi
     }
 });
 
-// Обработчик событий для кнопок редактирования
 document.addEventListener('click', function (event) {
     if (event.target.classList.contains('edit-button')) {
         const user = JSON.parse(event.target.dataset.user);
@@ -88,27 +84,25 @@ document.addEventListener('click', function (event) {
     }
 });
 
-// Заполнение модального окна редактирования
 function populateEditModal(user) {
     document.getElementById('editUserId').value = user.id;
+    document.getElementById('editId').value = user.id;
     document.getElementById('editUsername').value = user.username;
     document.getElementById('editEmail').value = user.email;
     document.getElementById('editAge').value = user.age;
-    // Установка ролей в модальном окне (если необходимо)
     const rolesSelect = document.getElementById('editRole');
     Array.from(rolesSelect.options).forEach(option => {
         option.selected = user.roles.some(role => role.name === option.text);
     });
-
     const editUserModal = new bootstrap.Modal(document.getElementById('editUserModal'));
     editUserModal.show();
 }
 
-// Обработка формы редактирования
 document.getElementById('editUserModal').querySelector('form').addEventListener('submit', async function (event) {
     event.preventDefault();
     const userId = document.getElementById('editUserId').value;
     const updatedUser  = {
+        id: document.getElementById('editId').value,
         username: document.getElementById('editUsername').value,
         email: document.getElementById('editEmail').value,
         age: document.getElementById('editAge').value,
@@ -121,7 +115,7 @@ document.getElementById('editUserModal').querySelector('form').addEventListener(
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify(updatedUser )
+            body: JSON.stringify(updatedUser)
         });
 
         if (response.ok) {
@@ -136,17 +130,30 @@ document.getElementById('editUserModal').querySelector('form').addEventListener(
     }
 });
 
-// Обработка удаления пользователя
 document.addEventListener('click', function (event) {
     if (event.target.classList.contains('delete-button')) {
         const userId = event.target.dataset.userId;
-        document.getElementById('deleteUserId').value = userId;
-        const deleteUserModal = new bootstrap.Modal(document.getElementById('deleteUserModal'));
-        deleteUserModal.show();
+        const user = JSON.parse(event.target.dataset.user);
+        populateDeleteModal(user);
     }
 });
 
-// Подтверждение удаления пользователя
+function populateDeleteModal(user) {
+    document.getElementById('deleteUserId').value = user.id;
+    document.getElementById('deleteId').value = user.id;
+    document.getElementById('deleteUsername').value = user.username;
+    document.getElementById('deleteEmail').value = user.email;
+    document.getElementById('deleteAge').value = user.age;
+
+    const rolesSelect = document.getElementById('deleteRole');
+    Array.from(rolesSelect.options).forEach(option => {
+        option.selected = user.roles.some(role => role.name === option.text);
+    });
+
+    const deleteUserModal = new bootstrap.Modal(document.getElementById('deleteUserModal'));
+    deleteUserModal.show();
+}
+
 document.getElementById('deleteUserModal').querySelector('form').addEventListener('submit', async function (event) {
     event.preventDefault();
     const userId = document.getElementById('deleteUserId').value;
