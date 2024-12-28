@@ -1,11 +1,3 @@
-document.addEventListener('DOMContentLoaded', function () {
-    document.getElementById('new_username').value = '';
-    document.getElementById('new_email').value = '';
-    document.getElementById('new_age').value = '';
-    document.getElementById('new_password').value = '';
-    document.getElementById('new_role').selectedIndex = -1;
-});
-
 document.querySelector('.add-user-form').addEventListener('submit', async function (event) {
     event.preventDefault();
     const newUser  = {
@@ -27,13 +19,10 @@ document.querySelector('.add-user-form').addEventListener('submit', async functi
 
         if (response.ok) {
             getUsers();
-            document.getElementById('new_username').value = '';
-            document.getElementById('new_email').value = '';
-            document.getElementById('new_age').value = '';
-            document.getElementById('new_password').value = '';
-            document.getElementById('new_role').selectedIndex = -1;
+            this.reset();
         } else {
             console.error('Ошибка при добавлении пользователя:', response.statusText);
+            this.reset()
         }
     } catch (error) {
         console.error('Ошибка при выполнении запроса:', error);

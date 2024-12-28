@@ -23,9 +23,8 @@ document.querySelectorAll('.roleLink').forEach(link => {
 });
 
 $(document).ready(async function () {
-    const response = await fetch('/api/current');
+    const response = await fetch('api/current');
     const user = await response.json();
-
 
     $('#currentUser').text(user.username);
     $('#roles').text(user.roles.map(role => role.authority).join(', '));

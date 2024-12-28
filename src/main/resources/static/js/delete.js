@@ -7,17 +7,15 @@ document.addEventListener('click', function (event) {
 });
 
 function populateDeleteModal(user) {
-    document.getElementById('deleteUserId').value = user.id;
-    document.getElementById('deleteId').value = user.id;
-    document.getElementById('deleteUsername').value = user.username;
-    document.getElementById('deleteEmail').value = user.email;
-    document.getElementById('deleteAge').value = user.age;
-
-    const rolesSelect = document.getElementById('deleteRole');
-    Array.from(rolesSelect.options).forEach(option => {
-        option.selected = user.roles.some(role => role.name === option.text);
+    $('#deleteUserId').val(user.id);
+    $('#deleteId').val(user.id);
+    $('#deleteUsername').val(user.username);
+    $('#deleteEmail').val(user.email);
+    $('#deleteAge').val(user.age);
+    const rolesSelect = $('#deleteRole');
+    rolesSelect.find('option').each(function() {
+        $(this).prop('selected', user.roles.some(role => role.name === $(this).text()));
     });
-
     const deleteUserModal = new bootstrap.Modal(document.getElementById('deleteUserModal'));
     deleteUserModal.show();
 }

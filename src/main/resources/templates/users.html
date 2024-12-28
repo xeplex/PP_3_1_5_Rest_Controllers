@@ -10,20 +10,13 @@
 </head>
 <body>
 <header class="bg-dark text-white p-1 d-flex justify-content-between navbar-fixed">
-    <div class="ms-3">
-        <strong style="font-size: 1.2rem;">
-            <th:block th:text="${user.username}"></th:block>
-        </strong>
-        with roles:
-        <span style="font-size: 1.2rem;">
-            <span th:each="role, iterStat : ${user.roles}">
-                <span th:text="${role.name}"></span>
-                <span th:if="${iterStat.index < iterStat.size - 1}"> </span>
-            </span>
+    <div class="container-fluid">
+        <span class="navbar-text text-light">
+            <strong id="currentUser"></strong> with roles: <strong id="roles"></strong>
         </span>
     </div>
     <form th:action="@{/logout}" method="post">
-<!--        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>-->
+        <!--        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>-->
         <button class="btn btn-link text-secondary text-decoration-none logout-button" type="submit">Logout</button>
     </form>
 </header>
@@ -37,11 +30,11 @@
         </li>
     </ul>
 </div>
-    <div class="content">
-        <div class="container">
-            <div th:if="${errorMessage}" class="alert alert-danger mt-3" role="alert">
-                <span th:text="${errorMessage}"></span>
-            </div>
+<div class="content">
+    <div class="container">
+        <div th:if="${errorMessage}" class="alert alert-danger mt-3" role="alert">
+            <span th:text="${errorMessage}"></span>
+        </div>
         <h1 id="panelTitle">Admin panel</h1>
         <div id="adminPanel">
             <ul class="nav nav-tabs">
@@ -74,12 +67,11 @@
                     <h3 class="ps-3 p-2" style="background-color: #E9ECEF;">Add new user</h3>
                     <div class="row justify-content-center">
                         <div class="col-md-5">
-                            <form class="p-3 add-user-form" th:method="POST" th:action="@{/admin/saveUser}"
-                                  th:object="${user}" novalidate>
+                            <form class="p-3 add-user-form" id="newUserForm">
                                 <div class="mb-3">
                                     <label for="new_username"
                                            class="form-label fw-bold d-block text-center">Username</label>
-                                    <input th:field="*{username}" type="text" class="form-control" id="new_username"
+                                    <input type="text" class="form-control" id="new_username"
                                            required>
                                     <div class="invalid-feedback">
                                         Пожалуйста, введите имя пользователя.
@@ -88,7 +80,7 @@
                                 </div>
                                 <div class="mb-3">
                                     <label for="new_email" class="form-label fw-bold d-block text-center">Email</label>
-                                    <input th:field="*{email}" type="email" class="form-control" id="new_email"
+                                    <input type="email" class="form-control" id="new_email"
                                            required>
                                     <div class="invalid-feedback">
                                         Пожалуйста, введите корректный адрес электронной почты.
@@ -98,7 +90,7 @@
                                 <div class="mb-3">
                                     <label for="new_age"
                                            class="form-label fw-bold d-block text-center">Age</label>
-                                    <input th:field="*{age}" type="number" class="form-control" id="new_age"
+                                    <input type="number" class="form-control" id="new_age"
                                            required>
                                     <div class="invalid-feedback">
                                         Пожалуйста, введите возраст.
@@ -107,7 +99,7 @@
                                 <div class="mb-3">
                                     <label for="new_password"
                                            class="form-label fw-bold d-block text-center">Password</label>
-                                    <input th:field="*{password}" type="password" class="form-control" id="new_password"
+                                    <input type="password" class="form-control" id="new_password"
                                            required>
                                     <div class="invalid-feedback">
                                         Пожалуйста, введите пароль.
@@ -115,10 +107,9 @@
                                 </div>
                                 <div class="mb-3">
                                     <label for="new_role" class="form-label fw-bold d-block text-center">Role</label>
-                                    <select th:field="*{roles}" class="form-select" id="new_role" multiple size="2"
-                                            required>
-                                        <option th:each="role : ${allRoles}" th:value="${role.id}"
-                                                th:text="${role.name}"></option>
+                                    <select class="form-select" id="new_role" name="roles" multiple size="2" required>
+                                        <option value="1">ADMIN</option>
+                                        <option value="2">USER</option>
                                     </select>
                                     <div class="invalid-feedback">
                                         Пожалуйста, выберите хотя бы одну роль.
@@ -149,7 +140,7 @@
                             <th scope="col">ROLES</th>
                         </tr>
                         </thead>
-                        <tbody class = "userInfo">
+                        <tbody class="userInfo">
                         </tbody>
                     </table>
                 </div>
@@ -280,6 +271,7 @@
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"
         integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p"
         crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="/js/fetchSсripts.js"></script>
 <script src="/js/update.js"></script>
 <script src="/js/create.js"></script>

@@ -6,15 +6,15 @@ document.addEventListener('click', function (event) {
 });
 
 function populateEditModal(user) {
-    document.getElementById('editUserId').value = user.id;
-    document.getElementById('editId').value = user.id;
-    document.getElementById('editUsername').value = user.username;
-    document.getElementById('editEmail').value = user.email;
-    document.getElementById('editAge').value = user.age;
-    document.getElementById('editPassword').value = '';
-    const rolesSelect = document.getElementById('editRole');
-    Array.from(rolesSelect.options).forEach(option => {
-        option.selected = user.roles.some(role => role.name === option.text);
+    $('#editUserId').val(user.id);
+    $('#editId').val(user.id);
+    $('#editUsername').val(user.username);
+    $('#editEmail').val(user.email);
+    $('#editAge').val(user.age);
+    $('#editPassword').val('');
+    const rolesSelect = $('#editRole');
+    rolesSelect.find('option').each(function () {
+        $(this).prop('selected', user.roles.some(role => role.name === $(this).text()));
     });
     const editUserModal = new bootstrap.Modal(document.getElementById('editUserModal'));
     editUserModal.show();
@@ -25,11 +25,13 @@ document.getElementById('editUserModal').querySelector('form').addEventListener(
     const userId = document.getElementById('editUserId').value;
 
     const updatedUser = {
-        id: document.getElementById('editId').value,
-        username: document.getElementById('editUsername').value,
-        email: document.getElementById('editEmail').value,
-        age: document.getElementById('editAge').value,
-        roles: Array.from(document.getElementById('editRole').selectedOptions).map(option => option.value)
+        id: $('#editId').val(),
+        username: $('#editUsername').val(),
+        email: $('#editEmail').val(),
+        age: $('#editAge').val(),
+        roles: $('#editRole option:selected').map(function () {
+            return $(this).val();
+        }).get()
     };
     const password = document.getElementById('editPassword').value;
     if (password) {
@@ -46,9 +48,8 @@ document.getElementById('editUserModal').querySelector('form').addEventListener(
         });
 
         if (response.ok) {
-            getUsers();
-            const editUserModal = bootstrap.Modal.getInstance(document.getElementById('editUserModal'));
-            editUserModal.hide();
+            await getUsers();
+            $('#editUserModal').modal('hide');
         } else {
             console.error('Ошибка при редактировании пользователя:', response.statusText);
         }
