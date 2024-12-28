@@ -15,10 +15,7 @@
             <strong id="currentUser"></strong> with roles: <strong id="roles"></strong>
         </span>
     </div>
-    <form th:action="@{/logout}" method="post">
-        <!--        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>-->
-        <button class="btn btn-link text-secondary text-decoration-none logout-button" type="submit">Logout</button>
-    </form>
+    <a href="/logout" class="btn btn-link text-secondary text-decoration-none logout-button">Logout</a>
 </header>
 <div class="sidebar">
     <ul class="nav flex-column p-2">
@@ -140,7 +137,7 @@
                             <th scope="col">ROLES</th>
                         </tr>
                         </thead>
-                        <tbody class="userInfo">
+                        <tbody id="userTableBody">
                         </tbody>
                     </table>
                 </div>

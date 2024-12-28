@@ -19,12 +19,10 @@ public class AdminRestController {
 
     private final UserService userService;
     private final ValidateRestUserService validateRestUserService;
-    private final RoleService roleService;
 
     public AdminRestController(UserService userService, ValidateRestUserService validateRestUserService, RoleService roleService) {
         this.userService = userService;
         this.validateRestUserService = validateRestUserService;
-        this.roleService = roleService;
     }
 
     @GetMapping("/users")
