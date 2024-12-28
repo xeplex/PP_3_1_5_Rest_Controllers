@@ -8,7 +8,6 @@ import org.hibernate.annotations.FetchMode;
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
 import org.springframework.security.core.GrantedAuthority;
-import org.w3c.dom.stylesheets.LinkStyle;
 
 import javax.persistence.*;
 import java.util.*;
@@ -18,10 +17,6 @@ import java.util.*;
 @NoArgsConstructor
 @Table(name = "roles")
 public class Role implements GrantedAuthority {
-
-    public Role(Long id) {
-        this.id = id;
-    } // не самая хорошая практика
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -34,6 +29,10 @@ public class Role implements GrantedAuthority {
     @Fetch(FetchMode.JOIN)
     @JsonBackReference
     private Set<User> users;
+
+    public Role(Long id) {
+        this.id = id;
+    }
 
     @Override
     public String getAuthority() {

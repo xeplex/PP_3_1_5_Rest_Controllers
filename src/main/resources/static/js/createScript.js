@@ -18,7 +18,7 @@ document.querySelector('.add-user-form').addEventListener('submit', async functi
         });
 
         if (response.ok) {
-            getUsers();
+            await getUsers();
             this.reset();
         } else {
             console.error('Ошибка при добавлении пользователя:', response.statusText);

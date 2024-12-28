@@ -30,7 +30,7 @@ document.getElementById('deleteUserModal').querySelector('form').addEventListene
         });
 
         if (response.ok) {
-            getUsers();
+            await getUsers();
             const deleteUserModal = bootstrap.Modal.getInstance(document.getElementById('deleteUserModal'));
             deleteUserModal.hide();
         } else {

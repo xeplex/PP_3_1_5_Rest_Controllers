@@ -1,6 +1,5 @@
 package ru.kata.spring.boot_security.demo.validation;
 
-import org.springframework.ui.Model;
 import ru.kata.spring.boot_security.demo.model.User;
 
 public interface ValidateRestUserService {
