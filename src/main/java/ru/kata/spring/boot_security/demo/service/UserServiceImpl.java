@@ -90,6 +90,7 @@ public class UserServiceImpl implements UserService {
 
 
     @Override
+    @Transactional
     public User findByUsername(String username) {
         return userRepository.findByUsername(username);
     }
@@ -101,11 +102,13 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @Transactional
     public Boolean existsByUsername(String username) {
         return userRepository.findByUsername(username) != null;
     }
 
     @Override
+    @Transactional
     public Boolean existsByEmail(String email) {
         return userRepository.findByEmail(email) != null;
     }

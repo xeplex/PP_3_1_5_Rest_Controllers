@@ -20,7 +20,7 @@ public class AdminRestController {
     private final UserService userService;
     private final ValidateRestUserService validateRestUserService;
 
-    public AdminRestController(UserService userService, ValidateRestUserService validateRestUserService, RoleService roleService) {
+    public AdminRestController(UserService userService, ValidateRestUserService validateRestUserService) {
         this.userService = userService;
         this.validateRestUserService = validateRestUserService;
     }
@@ -50,15 +50,15 @@ public class AdminRestController {
     }
 
     @PatchMapping("/users/{id}")
-    public String updateUser(@RequestBody User user,
-                             @PathVariable("id") Long id) {
+    public ResponseEntity<String> updateUser(@RequestBody User user,
+                                             @PathVariable("id") Long id) {
         if (user == null) {
             throw new NoSuchUserException("There is no user with ID = " + id + " in Database");
         }
         validateRestUserService.validateUpdateUser(user, id);
         validateRestUserService.validateByAge(user);
         userService.update(user, id);
-        return "User with ID = " + id + " was updated";
+        return ResponseEntity.ok("User  with ID = " + id + " was updated");
     }
 
     @GetMapping("/current")

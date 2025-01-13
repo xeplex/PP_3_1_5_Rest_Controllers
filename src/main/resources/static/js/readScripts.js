@@ -10,7 +10,6 @@ async function getUsers() {
             method: "GET",
             headers: {"Accept": "application/json"}
         });
-
         if (response.ok) {
             const users = await response.json();
             const rows = document.querySelector("tbody");
@@ -46,10 +45,9 @@ function createRow(user) {
     return row;
 }
 
-$(document).ready(async function () {
+$(document).ready(async function (){
     const response = await fetch('/api/current');
     const user = await response.json();
-
 
     $('#currentUser').text(user.username);
     $('#roles').text(user.roles.map(role => role.authority).join(', '));
@@ -63,5 +61,4 @@ $(document).ready(async function () {
                 <td>${user.roles.map(role => role.authority).join(', ')}</td>
             </tr>`;
     $('#userTableBody').append(userRow);
-
 });

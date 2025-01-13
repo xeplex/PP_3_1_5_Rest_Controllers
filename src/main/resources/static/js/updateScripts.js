@@ -20,7 +20,8 @@ function populateEditModal(user) {
     editUserModal.show();
 }
 
-document.getElementById('editUserModal').querySelector('form').addEventListener('submit', async function (event) {
+document.getElementById('editUserModal').querySelector('form').addEventListener('submit',
+    async function (event) {
     event.preventDefault();
     const userId = document.getElementById('editUserId').value;
 
@@ -48,12 +49,21 @@ document.getElementById('editUserModal').querySelector('form').addEventListener(
         });
 
         if (response.ok) {
-            await getUsers();
-            $('#editUserModal').modal('hide');
+            $('#editUserModal').modal('hide')
+            await getUsers()
+            await updateCurrentUser()
         } else {
             console.error('Ошибка при редактировании пользователя:', response.statusText);
         }
     } catch (error) {
         console.error('Ошибка при выполнении запроса:', error);
+    }
+
+    async function updateCurrentUser() {
+        const response = await fetch('/api/current');
+        const user = await response.json();
+
+        $('#currentUser').text(user.username);
+        $('#roles').text(user.roles.map(role => role.authority).join(', '));
     }
 });
