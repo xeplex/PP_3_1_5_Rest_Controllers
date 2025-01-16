@@ -4,7 +4,6 @@ package ru.kata.spring.boot_security.demo.controller;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import ru.kata.spring.boot_security.demo.exception_handler.NoSuchUserException;
 import ru.kata.spring.boot_security.demo.model.User;
 import ru.kata.spring.boot_security.demo.service.UserService;
 import ru.kata.spring.boot_security.demo.validation.ValidateRestUserService;
@@ -39,21 +38,14 @@ public class AdminRestController {
     }
 
     @DeleteMapping("/users/{id}")
-    public String deleteEmployee(@PathVariable Long id) {
-        User user = userService.getById(id);
-        if (user == null) {
-            throw new NoSuchUserException("There is no user with ID = " + id + " in Database");
-        }
+    public ResponseEntity<String> deleteUser(@PathVariable Long id) {
         userService.delete(id);
-        return "User  with ID = " + id + " was deleted";
+        return ResponseEntity.ok("User  with ID = " + id + " was deleted");
     }
 
     @PatchMapping("/users/{id}")
     public ResponseEntity<String> updateUser(@RequestBody User user,
                                              @PathVariable("id") Long id) {
-        if (user == null) {
-            throw new NoSuchUserException("There is no user with ID = " + id + " in Database");
-        }
         validateRestUserService.validateUpdateUser(user, id);
         validateRestUserService.validateByAge(user);
         userService.update(user, id);

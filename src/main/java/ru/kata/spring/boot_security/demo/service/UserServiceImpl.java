@@ -58,6 +58,10 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional
     public void delete(Long id) {
+        User user = getById(id);
+        if (user == null) {
+            throw new NoSuchUserException("There is no user with ID = " + id + " in Database");
+        }
         userRepository.deleteById(id);
     }
 
@@ -66,18 +70,10 @@ public class UserServiceImpl implements UserService {
     public void update(User user, Long id) {
         User existingUser = getById(id);
         if (existingUser != null) {
-            if (user.getUsername() != null) {
-                existingUser.setUsername(user.getUsername());
-            }
-            if (user.getEmail() != null) {
-                existingUser.setEmail(user.getEmail());
-            }
-            if (user.getAge() != null) {
-                existingUser.setAge(user.getAge());
-            }
-            if (user.getRoles() != null) {
-                existingUser.setRoles(user.getRoles());
-            }
+            existingUser.setUsername(user.getUsername());
+            existingUser.setEmail(user.getEmail());
+            existingUser.setAge(user.getAge());
+            existingUser.setRoles(user.getRoles());
             if (user.getPassword() != null && !user.getPassword().isEmpty()) {
                 String encodedPassword = passwordEncoder.encode(user.getPassword());
                 existingUser.setPassword(encodedPassword);
